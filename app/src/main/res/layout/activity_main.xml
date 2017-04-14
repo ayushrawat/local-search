@@ -13,8 +13,22 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        app:srcCompat="@drawable/_DSC0210"
-        android:layout_weight="0.55" />
+        android:layout_weight="0.55"
+        android:clickable="false"
+        android:focusable="false"
+        android:longClickable="false"
+        app:srcCompat="@drawable/_dsc0210" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="150dp"
+        android:layout_alignParentBottom="true" />
 
     <EditText
         android:id="@+id/editText"
@@ -49,4 +63,5 @@
         android:text="Sign In"
         tools:layout_editor_absoluteX="68dp"
         tools:layout_editor_absoluteY="408dp" />
+
 </LinearLayout>
