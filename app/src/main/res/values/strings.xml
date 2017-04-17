@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Local Search</string>
-    <string name="username">local.search.list@gmail.com</string>
+    <string name="sheet_id">1VHscm4lg6TYwMw0B8V5wq5HzAzHOI0IAKhKe_DHzCuE</string>
+    <string name="range">FinalAddress!A1:F</string>
+    <string name="name">Name</string>
+    <string name="line1">Address Line1</string>
+    <string name="area">Area</string>
+    <string name="reference">Reference</string>
+    <string name="phone">Phone</string>
+    <string name="time">Contact Time</string>
 </resources>

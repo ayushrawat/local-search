@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/item1"
+        android:title="@string/name"
+        />
+
+    <item
+        android:id="@+id/item2"
+        android:title="@string/line1"
+        />
+
+    <item
+        android:id="@+id/item3"
+        android:title="@string/area"
+        android:checked="true"/>
+
+    <item
+        android:id="@+id/item4"
+        android:title="@string/reference"
+        />
+
+    <item
+        android:id="@+id/item5"
+        android:title="@string/phone"
+        />
+
+    <item
+        android:id="@+id/item6"
+        android:title="@string/time"
+        />
+    </group>
+</menu>
