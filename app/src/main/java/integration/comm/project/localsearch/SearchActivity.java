@@ -10,8 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,13 +21,13 @@ import helper.PersonalData;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private EditText textView;
     private Button button;
     private ListView listView;
 
     private DataAdapter adapter;
 
-    private String selectedItem = "Name";
+    private String selectedItem = "Area";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        textView = (TextView) findViewById(R.id.autoCompleteTextView);
+        textView = (EditText) findViewById(R.id.autoCompleteTextView);
 
         textView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -60,11 +60,19 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = textView.getText().toString();
-
+                adapter.Filter(text, selectedItem);
             }
         });
 
+        textView.requestFocus();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        return;
     }
 
     @Override
@@ -72,7 +80,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
-        MenuItem mi = menu.getItem(R.id.item3);
+        MenuItem mi = menu.getItem(3);
+        mi.setChecked(true);
         button.setText(mi.getTitle());
     }
 
@@ -80,6 +89,7 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         button.setText(item.getTitle());
         selectedItem = item.getTitle().toString();
+        item.setChecked(true);
         return true;
     }
 
