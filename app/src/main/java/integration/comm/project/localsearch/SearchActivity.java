@@ -2,14 +2,16 @@ package integration.comm.project.localsearch;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -44,6 +46,23 @@ public class SearchActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.autoCompleteTextView);
 
+        textView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Do Nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Do Nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = textView.getText().toString();
+
+            }
+        });
 
 
     }

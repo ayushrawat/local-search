@@ -8,4 +8,5 @@
     <string name="reference">Reference</string>
     <string name="phone">Phone</string>
     <string name="time">Contact Time</string>
+    <string name="test">Address Line 1:\nPhone:\nReference:\nContact Time:</string>
 </resources>
