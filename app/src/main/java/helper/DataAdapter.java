@@ -1,11 +1,11 @@
 package helper;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +38,7 @@ public class DataAdapter extends BaseAdapter{
 
     public class ViewHolder {
         TextView name;
+        TextView area;
         TextView details;
     }
     @Override
@@ -57,19 +58,22 @@ public class DataAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if( convertView == null ) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.data, null);
-            holder.name = (TextView) convertView.findViewById(R.id.nameArea);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.area = (TextView) convertView.findViewById(R.id.area);
             holder.details = (TextView) convertView.findViewById(R.id.details);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(getItem(position).getName() + " - " + getItem(position).getArea());
+        holder.name.setText(getItem(position).getName());
         holder.name.setTypeface(holder.name.getTypeface(), Typeface.BOLD);
+        holder.area.setText(getItem(position).getArea());
+        holder.area.setTypeface(holder.area.getTypeface(), Typeface.BOLD);
         holder.details.setText("Address: "+getItem(position).getLine1()
                 + "\nPhone: " + getItem(position).getPhone()
                 + "\nReference: " + getItem(position).getReference()
@@ -80,10 +84,10 @@ public class DataAdapter extends BaseAdapter{
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setMessage(R.string.dialog_text);
-                builder.setTitle(R.string.dialog_title);
+                builder.setTitle(holder.name.getText());
+                builder.setMessage("Area: "+holder.area.getText()+"\n"+holder.details.getText());
 
-                builder.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
+                builder.setNeutralButton(R.string.neutral, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Go to Maps Activity with Area/Address
@@ -91,9 +95,9 @@ public class DataAdapter extends BaseAdapter{
                             String intentUriStr = "geo:26.9124,75.7873?q=_line1_"+getItem(position).getArea();
                             if (getItem(position).getLine1() !=null && !getItem(position).getLine1().trim().isEmpty())
                             {
-                                intentUriStr = intentUriStr.replace("_line1_",getItem(position).getLine1()+", ");
+                                intentUriStr = intentUriStr.replace("_line1_", getItem(position).getLine1()+", ");
                             } else {
-                                intentUriStr = intentUriStr.replace("_line1_","");
+                                intentUriStr = intentUriStr.replace("_line1_", "");
                             }
                             Log.i("DataAdapter",intentUriStr);
                             Uri intentUri = Uri.parse(intentUriStr);
@@ -128,8 +132,24 @@ public class DataAdapter extends BaseAdapter{
                     }
                 });
 
-                AlertDialog dialog = builder.create();
+                builder.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String phone = getItem(position).getPhone();
+                        phone = phone.replace("-","");
+                        String[] phones = phone.split("/");
+                        phone = phones[0];
+                        if(phone !=null && !phone.trim().isEmpty() && !phone.equalsIgnoreCase("NA")) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("sms:"+phone));
+                            intent.putExtra("sms_body", "Hari Om "+getItem(position).getName()+" :)");
+                            context.startActivity(intent);
+                        }
+                        dialog.cancel();
+                    }
+                });
 
+                AlertDialog dialog = builder.create();
                 dialog.show();
 
             }
@@ -145,15 +165,21 @@ public class DataAdapter extends BaseAdapter{
         } else {
             for(PersonalData pd: list) {
                 String toMatch = "";
-                switch (key) {
-                    case "Area": toMatch=pd.getArea(); break;
-                    case "Name": toMatch=pd.getName(); break;
-                    case "Address Line1": toMatch=pd.getLine1(); break;
-                    case "Reference": toMatch=pd.getReference(); break;
-                    case "Phone": toMatch=pd.getPhone(); break;
-                    case "Contact Time": toMatch=pd.getTime(); break;
-                    default: toMatch=pd.getArea(); break;
-                }
+                if (key.equalsIgnoreCase("Area"))
+                    toMatch=pd.getArea();
+                else if (key.equalsIgnoreCase("Name"))
+                    toMatch=pd.getName();
+                else if (key.equalsIgnoreCase("Address Line1"))
+                    toMatch=pd.getLine1();
+                else if (key.equalsIgnoreCase("Reference"))
+                    toMatch=pd.getReference();
+                else if (key.equalsIgnoreCase("Phone"))
+                    toMatch=pd.getPhone();
+                else if (key.equalsIgnoreCase("Contact Time"))
+                    toMatch=pd.getTime();
+                 else
+                    toMatch=pd.getArea();
+
                 if (toMatch != null && !toMatch.trim().isEmpty()) {
                     toMatch = toMatch.toLowerCase();
                     if (toMatch.contains(text)) {

@@ -10,7 +10,7 @@
     <string name="time">Contact Time</string>
     <string name="test">Address Line 1:\nPhone:\nReference:\nContact Time:</string>
     <string name="dialog_title">Choose</string>
-    <string name="dialog_text">Go to Maps to view Address on Map OR Call Contact?</string>
-    <string name="positive">Open Maps</string>
-    <string name="negative">Call</string>
+    <string name="positive">Send Text</string>
+    <string name="neutral">Open Maps</string>
+    <string name="negative">Place Call</string>
 </resources>

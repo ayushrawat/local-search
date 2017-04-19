@@ -36,6 +36,13 @@ public class SearchActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button);
         registerForContextMenu(button);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openContextMenu(button);
+            }
+        });
+
         Bundle bundle = getIntent().getExtras();
         ArrayList<PersonalData> listData = bundle.getParcelableArrayList("load_data");
 
@@ -80,8 +87,14 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
-        MenuItem mi = menu.getItem(3);
-        mi.setChecked(true);
+        int selected = 2;
+        for (int i=0; i < menu.size(); i++) {
+            if (menu.getItem(i).isChecked()) {
+                selected = i;
+                break;
+            }
+        }
+        MenuItem mi = menu.getItem(selected);
         button.setText(mi.getTitle());
     }
 
